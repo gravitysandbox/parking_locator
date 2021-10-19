@@ -4,17 +4,19 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parking_locator/models/place.dart';
 import 'package:parking_locator/services/geolocator_service.dart';
+import 'package:parking_locator/services/marker_service.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Search extends StatelessWidget {
-  const Search({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final placesProvider = Provider.of<Future<List<Place>>?>(context);
     var currentPosition = Provider.of<Position?>(context);
     final geoService = GeoLocatorService();
+    final markerService = MarkerService();
 
     return FutureProvider<List<Place>?>(
       initialData: null,
@@ -23,11 +25,14 @@ class Search extends StatelessWidget {
         body: (currentPosition != null)
             ? Consumer<List<Place>?>(
                 builder: (_, places, __) {
+                  var markers = (places != null)
+                      ? markerService.getMarkers(places)
+                      : <Marker>[];
                   return (places != null)
                       ? Column(
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height / 3,
+                              height: MediaQuery.of(context).size.height * 0.4,
                               width: MediaQuery.of(context).size.width,
                               child: GoogleMap(
                                 initialCameraPosition: CameraPosition(
@@ -36,6 +41,7 @@ class Search extends StatelessWidget {
                                   zoom: 16.0,
                                 ),
                                 zoomControlsEnabled: true,
+                                markers: Set<Marker>.of(markers),
                               ),
                             ),
                             const SizedBox(height: 10.0),
@@ -105,7 +111,7 @@ class Search extends StatelessWidget {
                                   );
                                 },
                               ),
-                            )
+                            ),
                           ],
                         )
                       : const Center(
