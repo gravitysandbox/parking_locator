@@ -15,38 +15,53 @@ class ParkingList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: const Text(
-            'Nearest parking',
-            style: TextStyle(
-              color: Colors.black87,
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-            ),
+    return Positioned(
+      left: .0,
+      right: .0,
+      bottom: .0,
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.6,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30.0),
+            topRight: Radius.circular(30.0),
           ),
+          color: Colors.white,
         ),
-        Expanded(
-          child: ListView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: places!.length,
-            itemBuilder: (context, index) {
-              return FutureProvider(
-                initialData: null,
-                create: (context) => geoService!.getDistance(
-                  position!.latitude,
-                  position!.longitude,
-                  places![index].geometry.location.lat,
-                  places![index].geometry.location.lng,
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: const Text(
+                'Parking nearby',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
                 ),
-                child: ItemCard(place: places![index]),
-              );
-            },
-          ),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: places!.length,
+                itemBuilder: (context, index) {
+                  return FutureProvider(
+                    initialData: null,
+                    create: (context) => geoService!.getDistance(
+                      position!.latitude,
+                      position!.longitude,
+                      places![index].geometry.location.lat,
+                      places![index].geometry.location.lng,
+                    ),
+                    child: ItemCard(place: places![index]),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

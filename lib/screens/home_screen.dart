@@ -23,7 +23,6 @@ class HomeScreen extends StatelessWidget {
       initialData: null,
       create: (context) => placesProvider,
       child: Scaffold(
-        backgroundColor: Colors.green.shade100,
         body: (currentPosition != null)
             ? Consumer<List<Place>?>(
                 builder: (_, places, __) {
@@ -31,26 +30,17 @@ class HomeScreen extends StatelessWidget {
                       ? markerService.getMarkers(places)
                       : <Marker>[];
                   return (places != null)
-                      ? Column(
+                      ? Stack(
+                          fit: StackFit.expand,
                           children: [
                             ParkingMap(
                               position: currentPosition,
                               markers: markers,
                             ),
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.6,
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(30.0),
-                                  topRight: Radius.circular(30.0),
-                                ),
-                                color: Colors.white,
-                              ),
-                              child: ParkingList(
-                                places: places,
-                                position: currentPosition,
-                                geoService: geoService,
-                              ),
+                            ParkingList(
+                              places: places,
+                              position: currentPosition,
+                              geoService: geoService,
                             ),
                           ],
                         )

@@ -10,19 +10,26 @@ class ParkingMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.4,
-      width: MediaQuery.of(context).size.width,
-      child: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: LatLng(
-            position!.latitude,
-            position!.longitude,
+    return Positioned(
+      top: .0,
+      left: .0,
+      right: .0,
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.45,
+        width: MediaQuery.of(context).size.width,
+        child: GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: LatLng(
+              position!.latitude,
+              position!.longitude,
+            ),
+            zoom: 16.0,
           ),
-          zoom: 16.0,
+          zoomControlsEnabled: false,
+          zoomGesturesEnabled: true,
+          myLocationEnabled: true,
+          markers: Set<Marker>.of(markers!),
         ),
-        zoomControlsEnabled: true,
-        markers: Set<Marker>.of(markers!),
       ),
     );
   }

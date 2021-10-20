@@ -11,6 +11,7 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 1.0,
       child: ListTile(
         title: Text(place!.name),
         subtitle: Column(
