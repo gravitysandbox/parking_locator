@@ -27,6 +27,7 @@ class ParkingMap extends StatelessWidget {
           ),
           zoomControlsEnabled: false,
           zoomGesturesEnabled: true,
+          myLocationButtonEnabled: false,
           myLocationEnabled: true,
           markers: Set<Marker>.of(markers!),
         ),

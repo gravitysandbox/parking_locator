@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parking_locator/models/place.dart';
 import 'package:parking_locator/services/geolocator_service.dart';
 import 'package:parking_locator/services/marker_service.dart';
+import 'package:parking_locator/widgets/geolocation_button.dart';
 import 'package:parking_locator/widgets/loading_indicator.dart';
 import 'package:parking_locator/widgets/parking_list.dart';
 import 'package:parking_locator/widgets/parking_map.dart';
@@ -42,6 +43,7 @@ class HomeScreen extends StatelessWidget {
                               position: currentPosition,
                               geoService: geoService,
                             ),
+                            const GeolocationButton(),
                           ],
                         )
                       : const LoadingIndicator();
