@@ -5,10 +5,14 @@ import 'package:parking_locator/screens/home_screen.dart';
 import 'package:parking_locator/services/geolocator_service.dart';
 import 'package:parking_locator/services/places_service.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 import 'models/place.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
 }
 
