@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -16,11 +18,28 @@ class ParkingMap extends StatefulWidget {
 }
 
 class _ParkingMapState extends State<ParkingMap> {
-  bool? isNormalMapType;
+  Completer<GoogleMapController> _controller = Completer();
+  bool? isNormalMapType = true;
 
   void updateMapType(bool isNormalMapType) {
     this.isNormalMapType = isNormalMapType;
     setState(() {});
+  }
+
+  void updateMyLocation(Completer<GoogleMapController> controller) {
+    _controller = controller;
+    setState(() {});
+  }
+
+  Future<void> animateCamera(LatLng latLng) async {
+    CameraPosition cameraPosition = CameraPosition(
+      target: latLng,
+      zoom: 16.0,
+    );
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(
+      CameraUpdate.newCameraPosition(cameraPosition),
+    );
   }
 
   @override
@@ -40,6 +59,9 @@ class _ParkingMapState extends State<ParkingMap> {
               ),
               zoom: 16.0,
             ),
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
             mapToolbarEnabled: false,
             zoomControlsEnabled: false,
             zoomGesturesEnabled: true,
@@ -61,6 +83,7 @@ class _ParkingMapState extends State<ParkingMap> {
             child: OperationButton(
               position: widget.position,
               isGeolocation: true,
+              animateCamera: animateCamera,
             ),
           ),
         ],
