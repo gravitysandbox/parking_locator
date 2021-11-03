@@ -18,7 +18,7 @@ class ParkingMap extends StatefulWidget {
 }
 
 class _ParkingMapState extends State<ParkingMap> {
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
   bool? isNormalMapType = true;
 
   void updateMapType(bool isNormalMapType) {
@@ -26,12 +26,7 @@ class _ParkingMapState extends State<ParkingMap> {
     setState(() {});
   }
 
-  void updateMyLocation(Completer<GoogleMapController> controller) {
-    _controller = controller;
-    setState(() {});
-  }
-
-  Future<void> animateCamera(LatLng latLng) async {
+  Future<void> myLocation(LatLng latLng) async {
     CameraPosition cameraPosition = CameraPosition(
       target: latLng,
       zoom: 16.0,
@@ -83,7 +78,7 @@ class _ParkingMapState extends State<ParkingMap> {
             child: OperationButton(
               position: widget.position,
               isGeolocation: true,
-              animateCamera: animateCamera,
+              myLocation: myLocation,
             ),
           ),
         ],

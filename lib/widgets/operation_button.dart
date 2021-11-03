@@ -7,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 typedef MapTypeCallback = void Function(bool isNormaMapType);
 
 class OperationButton extends StatefulWidget {
-  final Function? animateCamera;
+  final Function? myLocation;
   final Position? position;
   final bool isGeolocation;
   final MapTypeCallback? onMapTypeChange;
@@ -17,7 +17,7 @@ class OperationButton extends StatefulWidget {
     this.position,
     required this.isGeolocation,
     this.onMapTypeChange,
-    this.animateCamera,
+    this.myLocation,
   }) : super(key: key);
 
   @override
@@ -38,10 +38,7 @@ class _OperationButtonState extends State<OperationButton> {
         elevation: 1.0,
         backgroundColor: Colors.white,
         onPressed: () {
-          widget.isGeolocation
-              ? widget.animateCamera!(
-                  LatLng(widget.position!.latitude, widget.position!.longitude))
-              : setMapType();
+          widget.isGeolocation ? animateCamera() : setMapType();
         },
         child: widget.isGeolocation
             ? const Icon(
@@ -62,7 +59,14 @@ class _OperationButtonState extends State<OperationButton> {
     );
   }
 
-  Future<void> setInitialLocation() async {}
+  void animateCamera() {
+    widget.myLocation!(
+      LatLng(
+        widget.position!.latitude,
+        widget.position!.longitude,
+      ),
+    );
+  }
 
   void setMapType() {
     isNormalMapType = !isNormalMapType;
